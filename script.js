@@ -14,7 +14,7 @@ const mouse = {
 window.addEventListener('mousemove', function (e) {
     mouse.x = e.x;
     mouse.y = e.y;
-    console.log(mouse.x, mouse.y);
+    //console.log(mouse.x, mouse.y);
 });
 
 ctx.fillStyle = 'cyan';
@@ -44,3 +44,26 @@ class Particle {
         ctx.fill();
     }
 }
+
+// create new particle arrays
+function init() {
+    // initialize with an empty array
+    particleArray = [];
+    // create new Particle object; add x, y arguments for initial position
+    particleArray.push(new Particle(50, 50));
+    particleArray.push(new Particle(80, 50));
+}
+init();
+console.log(particleArray);
+
+// create animation
+function animate() {
+    // clear the frame between animations
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    // iterate through array and call draw method
+    for (let i = 0; i < particleArray.length; i++) {
+        particleArray[i].draw();
+    }
+    requestAnimationFrame(animate);
+}
+animate();
