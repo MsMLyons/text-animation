@@ -14,7 +14,7 @@ const mouse = {
 window.addEventListener('mousemove', function (e) {
     mouse.x = e.x;
     mouse.y = e.y;
-    //console.log(mouse.x, mouse.y);
+    console.log(mouse.x, mouse.y);
 });
 
 ctx.fillStyle = 'cyan';
@@ -37,9 +37,9 @@ class Particle {
         this.density = (Math.random() * 30) + 1;
     }
     draw() {
-        ctx.fillStyle = 'white';
+        ctx.fillStyle = 'purple';
         ctx.beginPath();
-        ctx.ard(this.x, this.y, this.size, 0, Math.Pi * 2);
+        ctx.arc(this.x, this.y, this.size, 0, Math.Pi * 2);
         ctx.closePath();
         ctx.fill();
     }
@@ -49,9 +49,15 @@ class Particle {
 function init() {
     // initialize with an empty array
     particleArray = [];
+    //use for loop to automate creation of particles
+    for (let i = 0; i < 500; i++) {
+        let x = Math.random() * canvas.width;
+        let y = Math.random() * canvas.height;
+        particleArray.push(new Particle(x, y));
+    }
     // create new Particle object; add x, y arguments for initial position
-    particleArray.push(new Particle(50, 50));
-    particleArray.push(new Particle(80, 50));
+    //particleArray.push(new Particle(50, 50));
+    //particleArray.push(new Particle(80, 50));
 }
 init();
 console.log(particleArray);
