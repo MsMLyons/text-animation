@@ -37,7 +37,7 @@ class Particle {
         this.density = (Math.random() * 30) + 1;
     }
     draw() {
-        ctx.fillStyle = 'white';
+        ctx.fillStyle = 'red';
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.Pi * 2);
         ctx.closePath();
@@ -48,7 +48,7 @@ class Particle {
         let dx = mouse.x - this.x;
         let dy = mouse.y - this.y;
         let distance = Math.sqrt(dx * dx + dy * dy);
-        if (distance < 500) {
+        if (distance < 300) {
             this.size = 20;
         } else {
             this.size = 3;
@@ -61,7 +61,7 @@ function init() {
     // initialize with an empty array
     particleArray = [];
     //use for loop to automate creation of particles
-    for (let i = 0; i < 500; i++) {
+    for (let i = 0; i < 1000; i++) {
         let x = Math.random() * canvas.width;
         let y = Math.random() * canvas.height;
         particleArray.push(new Particle(x, y));
