@@ -65,10 +65,7 @@ function init() {
         let x = Math.random() * canvas.width;
         let y = Math.random() * canvas.height;
         particleArray.push(new Particle(x, y));
-    }
-    // create new Particle object; add x, y arguments for initial position
-    //particleArray.push(new Particle(50, 50));
-    //particleArray.push(new Particle(80, 50));
+    }    
 }
 init();
 console.log(particleArray);
@@ -76,7 +73,7 @@ console.log(particleArray);
 // create animation
 function animate() {
     // clear the frame between animations
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     // iterate through array and call draw method
     for (let i = 0; i < particleArray.length; i++) {
         particleArray[i].draw();
