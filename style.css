@@ -1,0 +1,19 @@
+/* basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow: hidden;
+    /* placing the background here rather than the canvas allows for distortion or liquid features */
+    background: black;
+}
+
+/* canvas is transparent because background is set to hold the color */
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
