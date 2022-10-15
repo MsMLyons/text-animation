@@ -4,7 +4,6 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 let particleArray = [];
 
-// mouse interaction handler
 const mouse = {
     x: null,
     y: null,
@@ -19,21 +18,16 @@ window.addEventListener('mousemove', function (e) {
 
 ctx.fillStyle = 'cyan';
 ctx.font = '30px Roboto';
-// text, position & size
 ctx.fillText('M', 30, 60);
-/* gets image data, scanning from coordinates x & y at position zero, expanding to 100 pixels */
 const data = ctx.getImageData(0, 0, 100, 100);
 
 class Particle {
     constructor(x, y) {
         this.x = x;
-        this.y = y;
-        // holds the size of the particles
-        this.size = 3;
-        // hold the initial position of the particles
+        this.y = y;        
+        this.size = 3;        
         this.baseX = this.x;
-        this.baseY = this.y;
-        // determines weight and affects the speed of a particle
+        this.baseY = this.y;        
         this.density = (Math.random() * 30) + 1;
     }
     draw() {
@@ -43,8 +37,7 @@ class Particle {
         ctx.closePath();
         ctx.fill();
     }
-    update() {
-        // create distance between mouse and particle positions
+    update() {        
         let dx = mouse.x - this.x;
         let dy = mouse.y - this.y;
         let distance = Math.sqrt(dx * dx + dy * dy);
@@ -56,11 +49,8 @@ class Particle {
     }
 }
 
-// create new particle arrays
-function init() {
-    // initialize with an empty array
-    particleArray = [];
-    //use for loop to automate creation of particles
+function init() {    
+    particleArray = [];    
     for (let i = 0; i < 1000; i++) {
         let x = Math.random() * canvas.width;
         let y = Math.random() * canvas.height;
@@ -70,11 +60,8 @@ function init() {
 init();
 console.log(particleArray);
 
-// create animation
-function animate() {
-    // clear the frame between animations
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // iterate through array and call draw method
+function animate() {    
+    ctx.clearRect(0, 0, canvas.width, canvas.height);    
     for (let i = 0; i < particleArray.length; i++) {
         particleArray[i].draw();
         particleArray[i].update();
