@@ -37,11 +37,22 @@ class Particle {
         this.density = (Math.random() * 30) + 1;
     }
     draw() {
-        ctx.fillStyle = 'purple';
+        ctx.fillStyle = 'white';
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.Pi * 2);
         ctx.closePath();
         ctx.fill();
+    }
+    update() {
+        // create distance between mouse and particle positions
+        let dx = mouse.x - this.x;
+        let dy = mouse.y - this.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance < 500) {
+            this.size = 20;
+        } else {
+            this.size = 3;
+        }
     }
 }
 
@@ -69,6 +80,7 @@ function animate() {
     // iterate through array and call draw method
     for (let i = 0; i < particleArray.length; i++) {
         particleArray[i].draw();
+        particleArray[i].update();
     }
     requestAnimationFrame(animate);
 }
