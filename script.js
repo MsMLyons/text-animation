@@ -3,6 +3,8 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 let particleArray = [];
+let adjustX = 30; // move text by number of pixels to the right
+let adjustY = 12; // move text by number of pixels downwards
 
 
 // handle mouse events
@@ -19,9 +21,9 @@ window.addEventListener('mousemove', function(e) {
 })
 
 ctx.fillStyle = 'cyan';
-ctx.font = '30px Roboto';
+ctx.font = '25px Roboto';
 // text, x & y coordinates for text location
-ctx.fillText('M', 30, 50);
+ctx.fillText('Marki', 0, 30);
 // gets image data, scanning from coordinates x & y at position zero, expanding to 100 pixels
 const textCoordinates = ctx.getImageData(0, 0, 100, 100);
 
@@ -83,22 +85,29 @@ class Particle {
         }
     }
 }
+console.log(textCoordinates);
 
 // create new particle arrays
 function init() {
     // initialize with an empty array
     particleArray = [];
-    //use for loop to automate creation of particles
-    // can change value in i < 1000 for different effects
-    for (let i = 0; i < 1000; i++) {
-        let x = Math.random() * canvas.width;
-        let y = Math.random() * canvas.height;
-        particleArray.push(new Particle(x, y));
-    }
-    // create individual particles with specific x, y coordinates
-    // but better to use the for loop, above 
-    //particleArray.push(new Particle(50, 50));
-    //particleArray.push(new Particle(80, 70));
+    // to draw text with particles
+    for (let y = 0, y2 = textCoordinates.height; y < y2; y++) {
+        for (let x = 0, x2 = textCoordinates.width; x < x2; x++) {
+            // the vlaue 128 represents about 50% opacity of a pixel
+            // if pixels are more than 50% opacity, capture location
+            /* every fourth (alpha) value in the array represents opacity, 
+            while the other 3 represent red, green, blue (rgba) */
+            // formula to find fourth value in array brackets
+            if (textCoordinates.data[(y * 4 * textCoordinates.width) + (x * 4) + 3] > 128) {
+                let positionX = x + adjustX;
+                let positionY = y + adjustY;
+                // create new particle object
+                // values can be adjusted for size and shape of text
+                particleArray.push(new Particle(positionX * 10, positionY * 10));
+            }
+        }
+    }    
 }
 init();
 console.log(particleArray);
@@ -112,6 +121,31 @@ function animate(){
         particleArray[i].draw();
         particleArray[i].update();
     }
+    connect();
     requestAnimationFrame(animate);
 }
 animate();
+
+// connect particles with lines
+function connect() {
+    let opacityValue = 1;
+    for(let a = 0; a < particleArray.length; a++) {
+        for (let b = a; b < particleArray.length; b++) {
+            let dx = particleArray[a].x - particleArray[b].x;
+            let dy = particleArray[a].y - particleArray[b].y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < 40){
+                // keep the distance above and the divisor below the same number
+                opacityValue = 0.5 - (distance / 40);
+                ctx.strokeStyle = 'rgb(218, 112, 214,' + opacityValue + ')';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(particleArray[a].x, particleArray[a].y);
+                ctx.lineTo(particleArray[b].x, particleArray[b].y);
+                ctx.stroke();
+                //ctx.closePath();
+            }
+        }
+    }
+}
