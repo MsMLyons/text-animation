@@ -65,9 +65,10 @@ class Particle {
         let directionY = forceDirectionY * force * this.density;
 
         // can change values to manipulate size and distance
+        // to attract particles to mouse, use +=, to repulse, use -=
         if (distance < mouse.radius) {
-            this.x += forceDirectionX;
-            this.y += forceDirectionY;
+            this.x -= directionX;
+            this.y -= directionY;
         } else {
             this.size = 1.5;
         }
