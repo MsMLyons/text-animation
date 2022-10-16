@@ -9,14 +9,13 @@ let particleArray = [];
 const mouse = {
     x: null,
     y: null,
-    radius: 150
+    radius: 125
 }
 
 // handle mouse input
 window.addEventListener('mousemove', function(e) {
     mouse.x = e.x;
-    mouse.y = e.y;
-    mouse.radius = 150;    
+    mouse.y = e.y;        
 })
 
 ctx.fillStyle = 'cyan';
@@ -36,8 +35,8 @@ class Particle {
         // base position of each particle
         this.baseX = this.x;
         this.baseY = this.y;
-        // particle weight and speed
-        this.density = (Math.random() * 30) + 1;
+        // particle weight and speed - higher numbers make particles move faster
+        this.density = (Math.random() * 40) + 5;
     }
     // draw the particles
     draw() {
@@ -70,7 +69,16 @@ class Particle {
             this.x -= directionX;
             this.y -= directionY;
         } else {
-            this.size = 1.5;
+            // return particles to original position
+            if (this.x !== this.baseX) {
+                let dx = this.x - this.baseX;
+                // control the speed at which the particles return to their original position
+                this.x -= dx / 10;
+            }
+            if (this.y !== this.baseY) {
+                let dy = this.y - this.baseY;
+                this.y -= dy / 10;
+            }
         }
     }
 }
