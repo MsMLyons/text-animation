@@ -23,7 +23,7 @@ window.addEventListener('mousemove', function(e) {
 ctx.fillStyle = 'cyan';
 ctx.font = '25px Roboto';
 // text, x & y coordinates for text location
-ctx.fillText('Marki', 0, 30);
+ctx.fillText('Mlyons', 0, 30);
 // gets image data, scanning from coordinates x & y at position zero, expanding to 100 pixels
 const textCoordinates = ctx.getImageData(0, 0, 100, 100);
 
@@ -128,21 +128,21 @@ animate();
 
 // connect particles with lines
 function connect() {
-    let opacityValue = 0.5;
+    let opacityValue = 0.65;
     for(let a = 0; a < particleArray.length; a++) {
         for (let b = a; b < particleArray.length; b++) {
             let dx = particleArray[a].x - particleArray[b].x;
             let dy = particleArray[a].y - particleArray[b].y;
             let distance = Math.sqrt(dx * dx + dy * dy);
 
-            // keep the distance divisor below the same number as the distance in the if statement, below
+            // keep the distance divisor below the same number as the distance in the if statement, also below
             // when these two lines are added to the if statement, the animation is faster
-            opacityValue = 0.5 - (distance / 40);
-            ctx.strokeStyle = 'rgb(218, 112, 214,' + opacityValue + ')';
-
+            // when added before the if statement, the animation is slower
             if (distance < 40){
-                // lines 140 & 141 here make for faster animation
-                
+                // keep opacity value and strokestyle code lines here make for faster animation
+                // move above this code block directly into the for loop for slower animation
+                opacityValue = 0.65 - (distance / 40);
+                ctx.strokeStyle = 'rgb(218, 112, 214,' + opacityValue + ')';
                 ctx.lineWidth = 2;
                 ctx.beginPath();
                 ctx.moveTo(particleArray[a].x, particleArray[a].y);
