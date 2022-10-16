@@ -23,7 +23,7 @@ ctx.font = '30px Roboto';
 // text, x & y coordinates for text location
 ctx.fillText('M', 30, 50);
 // gets image data, scanning from coordinates x & y at position zero, expanding to 100 pixels
-const data = ctx.getImageData(0, 0, 100, 100);
+const textCoordinates = ctx.getImageData(0, 0, 100, 100);
 
 class Particle {
     // create particles and initialize particle location
@@ -73,6 +73,7 @@ class Particle {
             if (this.x !== this.baseX) {
                 let dx = this.x - this.baseX;
                 // control the speed at which the particles return to their original position
+                // change the divisor value to change the speed
                 this.x -= dx / 10;
             }
             if (this.y !== this.baseY) {
