@@ -128,17 +128,21 @@ animate();
 
 // connect particles with lines
 function connect() {
-    let opacityValue = 1;
+    let opacityValue = 0.5;
     for(let a = 0; a < particleArray.length; a++) {
         for (let b = a; b < particleArray.length; b++) {
             let dx = particleArray[a].x - particleArray[b].x;
             let dy = particleArray[a].y - particleArray[b].y;
             let distance = Math.sqrt(dx * dx + dy * dy);
 
+            // keep the distance divisor below the same number as the distance in the if statement, below
+            // when these two lines are added to the if statement, the animation is faster
+            opacityValue = 0.5 - (distance / 40);
+            ctx.strokeStyle = 'rgb(218, 112, 214,' + opacityValue + ')';
+
             if (distance < 40){
-                // keep the distance above and the divisor below the same number
-                opacityValue = 0.5 - (distance / 40);
-                ctx.strokeStyle = 'rgb(218, 112, 214,' + opacityValue + ')';
+                // lines 140 & 141 here make for faster animation
+                
                 ctx.lineWidth = 2;
                 ctx.beginPath();
                 ctx.moveTo(particleArray[a].x, particleArray[a].y);
