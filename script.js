@@ -16,17 +16,13 @@ const mouse = {
 window.addEventListener('mousemove', function(e) {
     mouse.x = e.x;
     mouse.y = e.y;
-    console.log(mouse.x, mouse.y);
+    mouse.radius = 150;    
 })
 
 ctx.fillStyle = 'cyan';
 ctx.font = '30px Roboto';
 // text, x & y coordinates for text location
 ctx.fillText('M', 30, 50);
-// draw a box around the example text, above
-//ctx.strokeStyle = 'purple';
-//ctx.strokeRect(0, 0, 100, 100);
-
 // gets image data, scanning from coordinates x & y at position zero, expanding to 100 pixels
 const data = ctx.getImageData(0, 0, 100, 100);
 
@@ -56,9 +52,22 @@ class Particle {
         let dx = mouse.x - this.x;
         let dy = mouse.y - this.y;
         let distance = Math.sqrt(dx * dx + dy * dy);
+        // variables that effect the movement of particles near the mouse
+        // multiply the variables to make the movement faster
+        let forceDirectionX = dx / distance * 3;
+        let forceDirectionY = dy / distance * 3;
+        // set distance past which particle movement speed is zero
+        let maxDistance = mouse.radius;
+        // calculation to take any range of numbers and convert to range between 0 and 1
+        // will slow particles down as they reach the outer limits of the radius
+        let force = (maxDistance - distance) / maxDistance;
+        let directionX = forceDirectionX * force * this.density;
+        let directionY = forceDirectionY * force * this.density;
+
         // can change values to manipulate size and distance
-        if (distance < 200) {
-            this.size = 5;
+        if (distance < mouse.radius) {
+            this.x += forceDirectionX;
+            this.y += forceDirectionY;
         } else {
             this.size = 1.5;
         }
